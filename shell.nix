@@ -115,8 +115,7 @@ pkgs.mkShell rec {
       cargo test
       cargotestexit=$?
 
-      cargo fmt
-      git diff --exit-code
+      cargo fmt -- --check
       cargofmtexit=$?
 
       RUSTFLAGS='-D warnings' cargo clippy
