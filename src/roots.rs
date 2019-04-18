@@ -51,8 +51,8 @@ impl Roots {
 
         // The user directory sometimes doesn’t exist,
         // but we can create it (it’s root but `rwxrwxrwx`)
-        if !path.is_dir() {
-            std::fs::create_dir_all(&path).map_err(|e| AddRootError::create_dir_all(e, &path))?;
+        if !root.is_dir() {
+            std::fs::create_dir_all(&root).map_err(|e| AddRootError::create_dir_all(e, &root))?;
         }
 
         root.push(format!("{}-{}", self.id, name));
