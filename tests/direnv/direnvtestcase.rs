@@ -10,7 +10,7 @@ use lorri::{
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
-use std::path::Path;
+use std::path::PathBuf;
 use std::process::Command;
 use tempfile::{tempdir, TempDir};
 
@@ -24,11 +24,10 @@ impl DirenvTestCase {
     pub fn new(name: &str) -> DirenvTestCase {
         let tempdir = tempdir().expect("tempfile::tempdir() failed us!");
 
-        let test_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        let test_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("tests")
             .join("direnv")
-            .join(name)
-            .to_path_buf();
+            .join(name);
 
         let project = Project::load(
             test_root.join("shell.nix"),
