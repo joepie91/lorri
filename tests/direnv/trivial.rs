@@ -1,4 +1,4 @@
-use direnvtestcase::DirenvTestCase;
+use direnvtestcase::{DirenvTestCase, DirenvValue};
 
 #[test]
 fn trivial() {
@@ -6,5 +6,5 @@ fn trivial() {
     testcase.evaluate().expect("Failed to build the first time");
 
     let env = testcase.get_direnv_variables();
-    assert_eq!(env.get_env("MARKER"), Some(Some("present")));
+    assert_eq!(env.get_env("MARKER"), DirenvValue::Value("present"));
 }

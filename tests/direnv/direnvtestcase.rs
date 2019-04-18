@@ -106,17 +106,25 @@ impl DirenvEnv {
     /// Get an environment value with a borrowed str in the deepest Option.
     /// Makes asserts nicer, like:
     ///
-    ///    assert!(env.get_env("foo"), Some(Some("bar"));
-    ///
-    /// Whereas, with a standard HashMap.get you'd have to do:
-    ///
-    ///    assert!(env.get("foo"), Some(Some(String::new("bar"))));
-    ///
-    pub fn get_env<'a, 'b>(&'a self, key: &'b str) -> Option<Option<&'a str>> {
+    ///    assert!(env.get_env("foo"), Value("bar"));
+    pub fn get_env<'a, 'b>(&'a self, key: &'b str) -> DirenvValue {
         match self.0.get(key) {
-            Some(Some(val)) => Some(Some(&val)),
-            Some(None) => Some(None),
-            None => None,
+            Some(Some(val)) => DirenvValue::Value(&val),
+            Some(None) => DirenvValue::Unset,
+            None => DirenvValue::NotSet,
         }
     }
+}
+
+/// Environemnt Values from Direnv
+#[derive(Debug, PartialEq)]
+pub enum DirenvValue<'a> {
+    /// This variable will not be modified.
+    NotSet,
+
+    /// This variable will be unset when entering direnv.
+    Unset,
+
+    /// This variable will be set to exactly.
+    Value(&'a str),
 }
