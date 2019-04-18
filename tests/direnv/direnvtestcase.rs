@@ -29,11 +29,8 @@ impl DirenvTestCase {
             .join("direnv")
             .join(name);
 
-        let project = Project::load(
-            test_root.join("shell.nix"),
-            Some(tempdir.path().to_path_buf()),
-        )
-        .unwrap();
+        let project =
+            Project::load(test_root.join("shell.nix"), tempdir.path().to_path_buf()).unwrap();
 
         let build_loop =
             BuildLoop::new(project.expression(), Roots::from_project(&project).unwrap());
